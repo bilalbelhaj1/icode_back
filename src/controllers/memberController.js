@@ -96,3 +96,19 @@ exports.verifyMember = async (req,res) => {
     res.status(500).json({ message: "Something went wrong, please contact the developer" })
    }
 }
+
+exports.resetActive = async (req, res) => {
+  try {
+    console.log('Job executed: reset isActive');
+
+    await User.updateMany(
+      { isActive: false },
+      { $set: { isActive: true } }
+    );
+
+    res.status(200).json({ ok: true });
+  } catch (err) {
+    console.error('Error Cron Job', err);
+    res.status(500).json({ error: 'Cron failed' });
+  }
+}
